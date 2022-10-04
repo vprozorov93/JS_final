@@ -1,4 +1,3 @@
-// const e = require("express")
 const endfunc = ( err, response ) => {
   if (err) {
     console.log( err )
@@ -19,7 +18,7 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list(data, callback=endfunc){
-    createRequest({'url': this.URL, 'data': data, 'method': 'PUT', 'callback': callback})
+    createRequest({url: this.URL, data, 'method': 'PUT', callback})
   }
 
   /**
@@ -28,7 +27,7 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create(data, callback=endfunc) {
-    createRequest({'url': this.URL, 'data': data, 'method': 'PUT', 'callback': callback})
+    createRequest({url: this.URL, data, method: 'PUT', callback})
   }
 
   /**
@@ -36,6 +35,6 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove(data, callback=endfunc) {
-    createRequest({'url': this.URL, 'data': data, 'method': 'DELETE', 'callback': callback})
+    createRequest({url: this.URL, data, method: 'DELETE', callback})
   }
 }
