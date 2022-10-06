@@ -46,7 +46,7 @@ class User {
       url: this.URL + '/login',
       method: 'POST',
       responseType: 'json',
-      data,
+      data: '',
       callback: (err, response) => {
         if (response && response.success) {
           this.setCurrent(response.user);
@@ -115,6 +115,7 @@ class User {
       callback: (err, response) => {
         if (response && response.success) {
           this.unsetCurrent();
+          App.setState( 'init' )
         } else {
           console.log(response.error)
         }
