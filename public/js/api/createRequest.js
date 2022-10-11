@@ -35,8 +35,9 @@ const createRequest = (options = {}) => {
     xhr.send(formData);
 
     let listener = () => {
+        xhr.removeEventListener('load', listener)
         options.callback(xhr.status, xhr.responseText)
     }
     xhr.addEventListener('load', listener)
-    xhr.removeEventListener('load', listener)
+    
 };
