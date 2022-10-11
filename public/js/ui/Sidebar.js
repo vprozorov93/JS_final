@@ -24,11 +24,11 @@ class Sidebar {
     toggleButton.addEventListener('click', (event) => {
       event.preventDefault()
       if (parent.classList.contains('sidebar-open')){
-        parent.classList.remove('sidebar-open')
-        parent.classList.remove('sidebar-collapse')
+        parent.classList.toggle('sidebar-open')
+        parent.classList.toggle('sidebar-collapse')
       } else {
-        parent.classList.add('sidebar-open')
-        parent.classList.add('sidebar-collapse')
+        parent.classList.toggle('sidebar-open')
+        parent.classList.toggle('sidebar-collapse')
       }
     })
 
@@ -45,9 +45,11 @@ class Sidebar {
 
     document.addEventListener('click', event => {
       if (event.target.classList.contains('menu-item_register')) {
-        Modal.open(App.getModal('modal-register'))
+        modal = new Modal(App.getModal('modal-register'))
+        modal.open()
       } else if (event.target.classList.contains('menu-item_login')) {
-        Modal.open(App.getModal('modal-login'))
+        modal = new Modal(App.getModal('modal-login'))
+        modal.open()
       } else if(event.target.classList.contains('menu-item_logout')) {
         User.logout()
       }
