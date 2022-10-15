@@ -115,7 +115,6 @@ class User {
       callback: (err, response) => {
         if (response && response.success) {
           this.unsetCurrent();
-          App.setState( 'init' )
         } else {
           console.log(response.error)
         }

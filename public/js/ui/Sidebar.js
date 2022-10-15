@@ -51,7 +51,13 @@ class Sidebar {
         modal = new Modal(App.getModal('modal-login'))
         modal.open()
       } else if(event.target.classList.contains('menu-item_logout')) {
-        User.logout()
+        User.logout((err, response) => {
+          if (response && response.success) {
+            App.setState( 'init' )
+          } else {
+            console.log(err, response)
+          }
+        })
       }
     })
   }

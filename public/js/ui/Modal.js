@@ -26,7 +26,7 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    document.addEventListener('click', (event) => {
+    this.element.addEventListener('click', (event) => {
       if (event.target.dismiss === 'modal') {
         this.onClose(event)
       }

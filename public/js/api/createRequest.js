@@ -5,33 +5,27 @@
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
     xhr.responseType = 'json'
-    let method = ''
     let url = ''
     let formData = ''
     
-    switch (options.method) {
-        case 'GET':
-            let data = ''
-            for (let [key, value] of Object.entries(options.data)) {
-                data = data + `${key}=${value}&`
-            }
-            method = 'GET'
-            url = data + (data.length ? "?" + data.slice(0, -1) : '')
-        case 'PUT':
-            break
-        case 'POST':
-            formData = new FormData();
 
-            for (let [key, value] of Object.entries(options.data)) {
-                formData.append(key, value)
-            } 
-            method = 'POST'
-            url = options.url
-            break
-        case 'DELETE':
-            break
+    if(options.method === 'GET') {
+        let data = ''
+        for (let [key, value] of Object.entries(options.data)) {
+            data = data + `${key}=${value}&`
+        }
+        method = 'GET'
+        url = data + (data.length ? "?" + data.slice(0, -1) : '')
+    } else {
+        formData = new FormData();
+
+        for (let [key, value] of Object.entries(options.data)) {
+            formData.append(key, value)
+        } 
+        url = options.url
     }
-    xhr.open(method, url);
+
+    xhr.open(options.method, url);
     xhr.send(formData);
 
     let listener = () => {
