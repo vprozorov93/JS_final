@@ -27,7 +27,7 @@ class Modal {
    * */
   registerEvents() {
     this.element.addEventListener('click', (event) => {
-      if (event.target.dismiss === 'modal') {
+      if (event.target.dataset.dismiss === 'modal') {
         this.onClose(event)
       }
     })

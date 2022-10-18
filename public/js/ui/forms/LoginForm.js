@@ -14,7 +14,7 @@ class LoginForm extends AsyncForm {
       if (response && response.success) {
         App.setState('user-logged')
         this.element.getElementById('login-form').reset()
-        modal = App.getModal('modal-login')
+        modal = App.getModal('login')
         modal.close()
       }s
     })
