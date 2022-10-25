@@ -9,6 +9,7 @@ class CreateTransactionForm extends AsyncForm {
    * */
   constructor(element) {
     super(element)
+    this.renderAccountsList()
   }
 
   /**
@@ -16,7 +17,12 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-
+    accountList = Account.list()
+    selectBill = document.querySelector('.accounts-select')
+    optionsBill = ''
+    accountList.forEach(element => {
+      optionsBill += `<option value="${element.id}">${element.name}</option>`
+    })
   }
 
   /**
@@ -26,6 +32,11 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-
+    const transaction = Transaction.create(data)
+    if (transaction === 'OK') {
+      App.update()
+      this.element.reset()
+      //не пойму что значит закрыть окно? скрыть форму?
+    }
   }
 }

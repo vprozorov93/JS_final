@@ -11,14 +11,18 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-
+    if (!element) {
+      throw new Error('Param "element" can\'t be empty')
+    }
+    this.element = element
+    this.registerEvents()
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-
+    this.render()
   }
 
   /**
@@ -28,7 +32,13 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-
+    this.element.addEventListener('click', event => {
+      if (event.traget.classList.contains('.remove-account')) {
+        this.removeAccount()
+      } else if (event.traget.classList.contains('.transaction__remove')) {
+        this.removeTransaction(event.target.dataset.id)
+      }
+    })
   }
 
   /**
@@ -41,7 +51,12 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-
+    if (this.lastOptions) {
+      if (Account.remove(this.lastOptions)) {
+        App.updateWidgets()
+        App.updateForms()
+      }
+    }
   }
 
   /**
@@ -51,7 +66,10 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction( id ) {
-
+    if (Transaction.remove(id)) {
+      this.update()
+      App.updateWidgets()
+    }
   }
 
   /**
@@ -61,6 +79,17 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
+    if (!options) {
+      throw new Error('Param "options" can\'t be empty')
+    }
+    this.lastOptions = options
+    const account = Account.get(options.account_id)
+    if (account) {
+      this.renderTitle(account)
+    }
+
+    const transaction = Transaction.list()
+    this.renderTransactions(transaction)
 
   }
 
@@ -70,14 +99,16 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-
+    this.removeTransaction(new Array())
+    this.renderTitle('Название счёта')
+    this.lastOptions = ''
   }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name){
-
+    this.element.querySelector('.content-title').textContent = name
   }
 
   /**
@@ -85,7 +116,9 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-
+    const date = new Date(date)
+    month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+    return `${date.getDate} ${month[date.getMonth()]} ${date.getFillYear()}г. в ${date.getHours()}:${date.getMinutes()}`
   }
 
   /**
@@ -93,7 +126,28 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML(item){
-
+    return `
+    <div class="transaction transaction_${item.type} row">
+      <div class="col-md-7 transaction__details">
+        <div class="transaction__icon">
+            <span class="fa fa-money fa-2x"></span>
+        </div>
+        <div class="transaction__info">
+            <h4 class="transaction__title">Новый будильник</h4>
+            <div class="transaction__date">${this.formatDate(item.created_at)}</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="transaction__summ">
+            ${item.sum} <span class="currency">₽</span>
+        </div>
+      </div>
+      <div class="col-md-2 transaction__controls">
+          <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+              <i class="fa fa-trash"></i>  
+          </button>
+      </div>
+    </div>`
   }
 
   /**
@@ -101,6 +155,11 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(data){
+    let transactionCode = ''
+    data.forEach(element => {
+      transactionCode += this.getTransactionHTML(element)
+    })
 
+    this.element.querySelector('section .content').appendChild(transactionCode)
   }
 }

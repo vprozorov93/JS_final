@@ -26,15 +26,15 @@ const createRequest = (options = {}) => {
     try {
         xhr.open(options.method, url);
         xhr.send(formData);
-        let listener = () => {
-            xhr.removeEventListener('load', listener)
-            options.callback(xhr.status, xhr.responseText)
-        }
-        xhr.addEventListener('load', listener)
     } catch {
         console.log('Сервер вернул ошибку на запрос')
     }
 
+    let listener = () => {
+        xhr.removeEventListener('load', listener)
+        options.callback(xhr.status, xhr.responseText)
+    }
+    xhr.addEventListener('load', listener)
     
     
 };

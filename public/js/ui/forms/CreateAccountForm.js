@@ -1,3 +1,5 @@
+const { application } = require("express")
+
 /**
  * Класс CreateAccountForm управляет формой
  * создания нового счёта
@@ -9,6 +11,11 @@ class CreateAccountForm extends AsyncForm {
    * и сбрасывает форму
    * */
   onSubmit(data) {
-
+    bill = Account.create()
+    if (bill === 'OK') {
+      App.update()
+      this.element.reset()
+      //не пойму что значит закрыть окно? скрыть форму?
+    }
   }
 }

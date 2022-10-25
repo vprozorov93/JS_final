@@ -1,8 +1,10 @@
 const endfunc = ( err, response ) => {
   if (err) {
-    console.log( err )
+    console.log(err)
+    return err
   } else {
-    console.log( response )
+    console.log(response)
+    return response
   }
 }
 

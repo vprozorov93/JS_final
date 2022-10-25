@@ -3,6 +3,8 @@
  * отображения счетов в боковой колонке
  * */
 
+const { application } = require("express")
+
 class AccountsWidget {
   /**
    * Устанавливает текущий элемент в свойство element
@@ -14,7 +16,12 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if (!element) {
+      throw new Error('Param "element" can\'t be empty')
+    }
+    this.element = element
+    this.registerEvents()
+    this.update()
   }
 
   /**
@@ -25,7 +32,15 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
+    document.querySelector('.create-account').addEventListener('click', ()=>{
+      App.getModal('#modal-new-account')
+    })
 
+    document.addEventListener('click', (event)=> {
+      if (event.target.classList.classList.contains('account')){
+        this.onSelectAccount(event.target)
+      }
+    })
   }
 
   /**
@@ -39,7 +54,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+    const user = User.current()
+    if (user) {
+      const bills = Account.list(user)
+      if (bills) {
+        this.clear()
+        this.renderItem(bills)
+      }
+    }
   }
 
   /**
@@ -48,7 +70,9 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    Array.from(document.querySelectorAll('.account')).forEach(element => {
+      element.remove()
+    })
   }
 
   /**
@@ -59,7 +83,9 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+    document.querySelector('.active .account').classList.toggle('active')
+    element.classList.toggle('active')
+    App.showPage('transactions', { account_id: element.dataset.id })
   }
 
   /**
@@ -68,7 +94,14 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-
+    billCode = `
+    <li>class="active account" data-id="${item.id}">
+      <a href="#">
+        <span>${item.name}</span> /
+        <span>${item.sum} ₽</span>
+      </a>
+    </li>`
+    return billCode
   }
 
   /**
@@ -78,6 +111,10 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-
+    const billRoot = document.querySelector('.accounts-panel')
+    data.forEach(element => {
+      const billCode = this.getAccountHTML(element)
+      billRoot.appendChild(billCode)
+    })
   }
 }

@@ -6,8 +6,10 @@
 const endfunc =  ( err, response ) => {
   if (err) {
     console.log( err )
+    return err
   } else {
     console.log( response )
+    return response
   }
 }
 class Account extends Entity {
