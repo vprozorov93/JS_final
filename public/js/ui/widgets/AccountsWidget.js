@@ -3,7 +3,7 @@
  * отображения счетов в боковой колонке
  * */
 
-const { application } = require("express")
+// const { application } = require("express")
 
 class AccountsWidget {
   /**
@@ -114,7 +114,7 @@ class AccountsWidget {
     const billRoot = document.querySelector('.accounts-panel')
     data.forEach(element => {
       const billCode = this.getAccountHTML(element)
-      billRoot.appendChild(billCode)
+      billRoot.innerHTML = billCode
     })
   }
 }

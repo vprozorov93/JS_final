@@ -3,15 +3,15 @@
  * Управляет счетами пользователя.
  * Имеет свойство URL со значением '/account'
  * */
-const endfunc =  ( err, response ) => {
-  if (err) {
-    console.log( err )
-    return err
-  } else {
-    console.log( response )
-    return response
-  }
-}
+// const endfunc =  ( err, response ) => {
+//   if (err) {
+//     console.log( err )
+//     return err
+//   } else {
+//     console.log( response )
+//     return response
+//   }
+// }
 class Account extends Entity {
   
   static URL = '/account'

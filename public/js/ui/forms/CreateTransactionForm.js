@@ -18,11 +18,12 @@ class CreateTransactionForm extends AsyncForm {
    * */
   renderAccountsList() {
     accountList = Account.list()
-    selectBill = document.querySelector('.accounts-select')
+    selectBill = this.element.querySelector('.accounts-select')
     optionsBill = ''
     accountList.forEach(element => {
       optionsBill += `<option value="${element.id}">${element.name}</option>`
     })
+    selectBill.innerHTML = optionsBill
   }
 
   /**
@@ -34,9 +35,13 @@ class CreateTransactionForm extends AsyncForm {
   onSubmit(data) {
     const transaction = Transaction.create(data)
     if (transaction === 'OK') {
-      App.update()
       this.element.reset()
-      //не пойму что значит закрыть окно? скрыть форму?
+      App.update()
+      if (this.element.dataset.modal_id === 'newExpense'){
+        App.getModal('newExpense').close()
+      } else {
+        App.getModal('newIncome').close()
+      }
     }
   }
 }

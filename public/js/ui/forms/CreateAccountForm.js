@@ -1,4 +1,4 @@
-const { application } = require("express")
+// const { application } = require("express")
 
 /**
  * Класс CreateAccountForm управляет формой
@@ -13,9 +13,9 @@ class CreateAccountForm extends AsyncForm {
   onSubmit(data) {
     bill = Account.create()
     if (bill === 'OK') {
-      App.update()
       this.element.reset()
-      //не пойму что значит закрыть окно? скрыть форму?
+      App.update()
+      App.getModal('newAccount').close()
     }
   }
 }

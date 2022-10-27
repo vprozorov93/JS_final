@@ -116,9 +116,9 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-    const date = new Date(date)
+    const dateObject = new Date(date)
     month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
-    return `${date.getDate} ${month[date.getMonth()]} ${date.getFillYear()}г. в ${date.getHours()}:${date.getMinutes()}`
+    return `${dateObject.getDate} ${month[dateObject.getMonth()]} ${dateObject.getFillYear()}г. в ${dateObject.getHours()}:${dateObject.getMinutes()}`
   }
 
   /**
@@ -160,6 +160,6 @@ class TransactionsPage {
       transactionCode += this.getTransactionHTML(element)
     })
 
-    this.element.querySelector('section .content').appendChild(transactionCode)
+    this.element.querySelector('section .content').innerHTML = transactionCode
   }
 }

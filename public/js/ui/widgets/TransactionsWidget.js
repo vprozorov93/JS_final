@@ -27,9 +27,9 @@ class TransactionsWidget {
   registerEvents() {
     document.addEventListener('click', (event) =>{
       if (event.target.classList.contains('create-income-button')){
-        App.getModal('#modal-new-income')
+        App.getModal('newIncome')
       } else if (event.target.classList.contains('create-expense-button')){
-        App.getModal('#modal-new-expense')
+        App.getModal('newExpense')
       }
     })
   }
